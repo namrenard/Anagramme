@@ -1,33 +1,6 @@
-'''
-1) trouver l'anagramme d'un mot  = ok
-2) verifier que c'est un mot et non des chiffres = bug car si les deux mixer programme continue.
-3) fonction pour relancer avec le même mot ou choisir un nouveau = ok
-3.1) fonction pour un shuffle de x fois le mot  = ok
-4) interface gui : kivi md pour mobile
-4.1) faire un input ou text pour le mot, un bouton pour le shuffle et un bouton pour le nombre de recherche
-4.2) mettre un logo du jeu.
-4.3) mettre de la couleur en bandeau et arrière plan de l'appli.
-4.4) bouton pour relancer le programme en effacant les données
-5) compiler sous apk
-'''
 
 from random import shuffle
 import re
-
-# GUI kivi MD
-
-'''class AnagramApp(MDApp):
-    def build(self):
-        screen = Screen()
-        screen.add_widget(
-            MDRectangleFlatButton(
-                text="Click here to Shuffle",
-                pos_hint={"center_x": 0.5, "center_y": 0.5},
-            )
-        )
-        return screen'''
-
-
 
 
 class Word:
