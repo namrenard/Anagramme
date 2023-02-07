@@ -57,10 +57,7 @@ class Word:
 
 
 # ---------------------------program-----------------------------
-'''if __name__ == '__main__':
-    AnagramApp().run()'''
-print("Bonjour, ceci est un petit programme pour trouver un anagramme aléatoirement.")
-print()
+
 mot = ''
 while mot == '':
     mot = input("Veuillez donner un mot :")
