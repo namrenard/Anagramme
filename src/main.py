@@ -2,7 +2,7 @@ import random
 import string
 import re
 from random import shuffle
-from typing import List
+from typing import List, Union
 
 
 class Anagram:
@@ -42,7 +42,7 @@ class Anagram:
         return "".join(a)
 
     # choice of shuffle
-    def start_research(self) -> None:
+    def start_research(self) -> List[str]:
         """
         Method to generate a list of new words.
         :return: a list of new words
@@ -59,15 +59,14 @@ class Anagram:
                 anagrams.append(shuffle_result)
             counter += 1
         self.anagrams = list(set(anagrams))
-        self.reload_search(self.anagrams)
+        return self.anagrams
 
-    def reload_search(self, new_words: List[str]) -> List[str]:
+    def reload_search(self) -> Union[List[str], None]:
         """Method to restart a shuffle with the same word"""
         query = input(">> Start again the search of an anagram ?! >> [o/n]")
         if query.lower() == "o":
             self.start_research()
-        else:
-            return new_words
+        return self.anagrams
 
 
 # ---------------------------program-----------------------------
@@ -76,5 +75,6 @@ print()
 mot = input("[?] Give a word, please. \n(if none, a default list of letters will be generated.\n >> ")
 
 start = Anagram(mot)
-result = start.start_research()
+start.start_research()
+result = start.reload_search()
 print(result)
