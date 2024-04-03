@@ -1,6 +1,5 @@
-import random
-import string
 import re
+import requests
 from random import shuffle
 from typing import List, Union
 
@@ -14,11 +13,12 @@ class Anagram:
     @staticmethod
     def _random_word() -> str:
         """
-        Method to generate a list of letter if no world is given.
+        Method to generate a word from RANDOM WORDS API.
 
-        :return:  a block of letter
+        :return:  a word from the English dictionary
         """
-        return "".join(random.sample(list(string.ascii_lowercase), k=random.randint(1, 26)))
+        api_url = "https://random-word-api.herokuapp.com/word"
+        return requests.get(url=api_url).text.strip('[]"')
 
     @staticmethod
     def _check_word(word: str) -> bool:
@@ -63,8 +63,8 @@ class Anagram:
 
     def reload_search(self) -> Union[List[str], None]:
         """Method to restart a shuffle with the same word"""
-        query = input(">> Start again the search of an anagram ?! >> [o/n]")
-        if query.lower() == "o":
+        query = input(">> Start again the search of an anagram ?! >> [y/n]")
+        if query.lower() == "y":
             self.start_research()
         return self.anagrams
 
