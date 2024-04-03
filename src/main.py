@@ -13,7 +13,7 @@ class Anagram:
     @staticmethod
     def _random_word() -> str:
         """
-        Method to generate a word from RANDOM WORDS API.
+        Method to generate a word from the call of RANDOM WORDS API.
 
         :return:  a word from the English dictionary
         """
@@ -70,9 +70,9 @@ class Anagram:
 
 
 # ---------------------------program-----------------------------
-print("Hello, this is a small program to find an anagram randomly.")
+print("Hello, this is a small program to generate an anagram randomly.")
 print()
-mot = input("[?] Give a word, please. \n(if none, a default list of letters will be generated.\n >> ")
+mot = input("[?] Give a word, please. \n(if none, a default word will be generated.)\n >> ")
 
 start = Anagram(mot)
 start.start_research()
