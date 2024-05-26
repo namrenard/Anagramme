@@ -1,26 +1,24 @@
-import random
-import string
-import sys
-from random import shuffle
 import re
-
-from typing import List
+import requests
+from random import shuffle
+from typing import List, Union
 
 
 class Anagram:
 
-    def __init__(self, word: str, token: int = 0):
-        self.word = word if Anagram._check_word(word) else Anagram._random_word()
-        self.token = token
+    def __init__(self, word: str):
+        self.word = word if (Anagram._check_word(word) and word != "") else Anagram._random_word()
+        self.anagrams = None
 
     @staticmethod
     def _random_word() -> str:
         """
-        Method to generate a list of letter if no world is given.
+        Method to generate a word from the call of RANDOM WORDS API.
 
-        :return:  a block of letter
+        :return:  a word from the English dictionary
         """
-        return "".join(random.sample(list(string.ascii_lowercase), k=random.randint(1, 26)))
+        api_url = "https://random-word-api.herokuapp.com/word"
+        return requests.get(url=api_url).text.strip('[]"')
 
     @staticmethod
     def _check_word(word: str) -> bool:
@@ -49,38 +47,40 @@ class Anagram:
         Method to generate a list of new words.
         :return: a list of new words
         """
-        anagrams = []
+        anagrams = self.anagrams if self.anagrams else []
         shuffle_number = None
-        counter = 0
-        while shuffle_number is None or shuffle_number.isdigit() is False:
-            shuffle_number = input("[?] Give a number of run you want : >> ")
+        count = 0
+        while shuffle_number is None or shuffle_number.isdigit() is False or shuffle_number == '0':
+            shuffle_number = input("[?] Give a number of research you want :\n >> ")
         research_int = int(shuffle_number)
-        while not counter == research_int:
-            result = self._shuffle_word()
-            if result != self.word:
-                anagrams.append(result)
-            counter += 1
-        if self.token == 0:
-            self.reload_search()
-        else:
-            return anagrams
+        while not count == research_int:
+            shuffle_result = self._shuffle_word()
+            if shuffle_result != self.word:
+                anagrams.append(shuffle_result)
+            count += 1
+        self.anagrams = list(set(anagrams))
+        return self.anagrams
 
-    # again a shuffle or shutdown the program?
-    def reload_search(self) -> None:
+    def reload_search(self) -> Union[List[str], None]:
         """Method to restart a shuffle with the same word"""
-        query = input(">> Start again the search of an anagram ?! >> [o/n]")
-        if query.lower() == "o":
+        query = input(">> Do you want to make a new research with the same word ?!\n [y/n] >>")
+        if query.lower() == "y":
             self.start_research()
-        else:
-            sys.exit(0)
+        return self.anagrams
 
 
 # ---------------------------program-----------------------------
-print("Hello, this is a small program to find an anagram randomly.")
+print("Hello, this is a small program to generate an anagram randomly.")
 print()
-mot = ''
-while mot == '':
-    mot = input("[?] Give a word, please. \n(if none, a default list of letters will be generated.\n >> ")
+mot = input("[?] Give a word, please. \n(if none, a default word will be generated.)\n >> ")
 
-mot_str = Anagram(mot, 0)
-mot_str.start_research()
+start = Anagram(mot)
+result = start.start_research()
+counter = 1
+for res in result:
+    print(f"Anagram n° {counter} : '{res}'")
+    counter += 1
+again = start.reload_search()
+for a in again:
+    print(f"Anagram n° {counter} : '{a}'")
+    counter += 1
