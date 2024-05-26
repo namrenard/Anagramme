@@ -49,21 +49,21 @@ class Anagram:
         """
         anagrams = self.anagrams if self.anagrams else []
         shuffle_number = None
-        counter = 0
+        count = 0
         while shuffle_number is None or shuffle_number.isdigit() is False or shuffle_number == '0':
-            shuffle_number = input("[?] Give a number of research you want : >> ")
+            shuffle_number = input("[?] Give a number of research you want :\n >> ")
         research_int = int(shuffle_number)
-        while not counter == research_int:
+        while not count == research_int:
             shuffle_result = self._shuffle_word()
             if shuffle_result != self.word:
                 anagrams.append(shuffle_result)
-            counter += 1
+            count += 1
         self.anagrams = list(set(anagrams))
         return self.anagrams
 
     def reload_search(self) -> Union[List[str], None]:
         """Method to restart a shuffle with the same word"""
-        query = input(">> Start again the search of an anagram ?! >> [y/n]")
+        query = input(">> Do you want to make a new research with the same word ?!\n [y/n] >>")
         if query.lower() == "y":
             self.start_research()
         return self.anagrams
@@ -75,6 +75,12 @@ print()
 mot = input("[?] Give a word, please. \n(if none, a default word will be generated.)\n >> ")
 
 start = Anagram(mot)
-start.start_research()
-result = start.reload_search()
-print(result)
+result = start.start_research()
+counter = 1
+for res in result:
+    print(f"Anagram n° {counter} : '{res}'")
+    counter += 1
+again = start.reload_search()
+for a in again:
+    print(f"Anagram n° {counter} : '{a}'")
+    counter += 1
